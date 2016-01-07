@@ -20,7 +20,7 @@ var angularProtractor = require('gulp-angular-protractor');
 var versionAfterBump;
 
 gulp.task('default', ['build', 'test']);
-gulp.task('ci', ['protractor-sauce','karma-sauce']);
+gulp.task('ci', ['protractor','karma-sauce']);
 gulp.task('build', ['scripts']);
 gulp.task('test', ['build', 'protractor', 'karma-protractor']);
 
@@ -81,7 +81,7 @@ function runKarma(singleRun) {
     server.start();
 }
 
-gulp.task('karma-sauce', ['build', 'protractor-sauce'], function() {
+gulp.task('karma-sauce', ['build', 'protractor'], function() {
   var customLaunchers = geSaLaKaCuLa({
     'Windows 7': {
       'internet explorer': '9..11',
@@ -100,21 +100,13 @@ gulp.task('karma-sauce', ['build', 'protractor-sauce'], function() {
 });
 
 gulp.task('protractor', ['build'], function(callback) {
-    runProtractor('protractor.config.js', callback);
-});
-
-gulp.task('protractor-sauce', ['build'], function(callback) {
-    runProtractor('protractor.travis.config.js', callback);
-});
-
-var runProtractor = function(configFile, callback) {
     connect.server({
         port: 8000
     });
 
     gulp.src(['test/maskSpec.protractor.js'])
         .pipe(angularProtractor({
-            'configFile': configFile,
+            'configFile': 'protractor.config.js',
             'debug': false,
             'autoStartStopServer': true
         }))
@@ -125,7 +117,7 @@ var runProtractor = function(configFile, callback) {
             connect.serverClose();
             callback();
         });
-};
+});
 
 var handleError = function(err) {
     console.log(err.toString());
