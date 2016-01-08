@@ -8,6 +8,9 @@ before_install:
 - npm install -q
 - bower install --force
 - bower install --force
+before_script:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
 script: gulp ci
 sudo: false
 env:
