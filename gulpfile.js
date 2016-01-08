@@ -101,7 +101,7 @@ gulp.task('karma-sauce', ['build', 'protractor'], function() {
 
 gulp.task('protractor', ['build'], function(callback) {
     connect.server({
-        port: 8000
+        port: 5432
     });
 
     gulp.src(['test/maskSpec.protractor.js'])
